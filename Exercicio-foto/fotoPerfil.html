@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a2288264db.js" crossorigin="anonymous"></script>
+    <style>
+        .container-foto {
+            display: flex;
+        }
+
+        #foto {
+            height: 105px;
+            width: 105px;
+            border-radius: 150px;
+            background-size: cover;
+            background-position: 50%;
+            transform: scaleX(-1);
+        }
+
+
+        #camera {
+            width: 100%;
+            /* Preenche completamente o contêiner pai */
+            height: 100%;
+            /* Preenche completamente o contêiner pai */
+            transform: scaleX(-1);
+        }
+
+        .video-container {
+            border-radius: 200px;
+            width: 280px;
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+            border: #E3CFBC 2.6px solid;
+            background: #E3CFBC;
+        }
+
+        #camera {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .circle-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('circular-mask.png');
+            /* ajuste o caminho da imagem conforme necessário */
+            background-size: cover;
+            pointer-events: none;
+            /* Garante que a máscara não interfira com a interação do usuário no vídeo */
+        }
+
+
+        .botoesFoto {
+            display: flex;
+            /* width: 114px; */
+            align-items: center;
+        }
+
+        .botoesFoto button,
+        #download-link-container {
+            margin: 33px 25px;
+            background-color: #3C2520;
+        }
+
+        #download-link-container i {
+            font-size: 22px;
+        }
+
+        .fa-xmark {
+            font-size: 26px;
+        }
+
+        .fa-camera {
+            font-size: 21px;
+        }
+
+        .fa-check{
+            font-size: 22px;
+        }
+
+        main {
+            display: grid;
+            margin-top: 89px;
+            justify-items: center;
+        }
+
+        .enquatro {
+            height: 446px;
+            width: 372px;
+            display: grid;
+            justify-items: center;
+            background: #3C2520;
+            border-radius: 20px;
+            padding: 59px 10px;
+            margin-bottom: 71px;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="container-fundo">
+            <div class="container">
+                <a href="index.html">
+                    <div class="logo">
+                        <img src="img-interface/lenabi 1.png" alt="borboleta voando dentro de um livro">
+                        <h2>LeNabi</h2>
+                    </div>
+                </a>
+                <div class="buscar">
+                    <input type="text" id="buscar" placeholder="Buscar livro" oninput="buscarProduto()">
+                </div>
+
+                <div id="favoritos" onclick="toggleFavoritos()">
+                    <div class="imagem">
+                        <i class="fa-regular fa-heart" style="color: #522318; "></i>
+                    </div>
+                    <span id="cont-favoritos">0</span>
+                </div>
+                <div id="carrinho-itens" style="display: none;">
+                    <ul id="itens-lista"></ul>
+                    <span id="preco-total">Valor Total: R$0,00</span>
+                    <button class="car" onclick="limparCarrinho()">Limpar Carrinho</button>
+                </div>
+                <!-- Dentro da div do usuário logado -->
+                <div class="usuario-logado" id="userHeader" onclick="mostrarOcultarPopup()">
+                    <i class="fa-solid fa-user" style="color: #522318;"></i>
+                    <span id="nomeUsuario"></span>
+                </div>
+                <div id="popup" style="display: none;">
+                    <div class="popup-conteudo">
+                        <img id="perfil" src="img-interface/Group 20.svg" alt="">
+                        <img id="foto" src="" alt="">
+                        <a href="index - Copia.html">
+                            <div class="cameraIcon"><i class="fa-solid fa-camera" style="color: #E3CFBC;"></i></div>
+                        </a>
+                        <span id="conteudoPopup"></span>
+                        <span id="emailUsuario"></span>
+                        <br>
+
+                    </div>
+                    <button class="botaoSair" onclick="logout()">
+                        <p>Sair</p>
+                        <i id="logoutButton" class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </button>
+                </div>
+
+
+
+
+                <a href="login.html" class="button" id="loginButton"><span>Fazer login</span></a>
+            </div>
+        </div>
+
+        <nav>
+            <div class="botoes">
+                <a href="produto.html#pre-venda">Pré-Venda</a>
+                <a href="produto.html#lancamentos-page">Lançamentos</a>
+                <a href="produto.html">Produtos</a>
+                <a href="sustentabilidade.html">Sustentabilidade</a>
+
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="tituloPerfil">
+           <div class="titu"></div> <h2>Adicione sua foto de perfil!</h2> <div class="titu"></div>
+        </div>
+        <div class="enquatro">
+            <div class="video-container">
+                <video id="camera" autoplay></video>
+                <div class="circle-mask"></div>
+            </div>
+
+            <div class="botoesFoto">
+                <button onclick="descartar()"><i class="fa-solid fa-xmark" style="color: #E3CFBC;"></i></button>
+                <button onclick="salvarNoPerfil()"><i class="fa-solid fa-check" style="color: #E3CFBC;"></i></button>
+                <button onclick="abrirCamera()"><i class="fa-solid fa-camera" style="color: #E3CFBC;"></i></button>
+                <div id="download-link-container"><i class="fa-solid fa-download" style="color: #E3CFBC;"></i></div>
+            </div>
+        </div>
+        <div class="line"></div>
+    </main>
+    <footer>
+        <div class="container-footer">
+            <nav>
+                <div class="parte1">
+                    <a href="index.html#but">Produtos</a>
+                    <a href="index.html#lancamentos">Lançamentos</a>
+                    <a href="index.html#header">Pré-venda</a>
+                </div>
+                <div class="parte2">
+                    <a href="#">Favoritos</a>
+                    <a href="sustentabilidade.html">Sustentabilidade</a>
+                    <a href="sobre-nos.html">Sobre nós</a>
+                </div>
+            </nav>
+            <div class="redes-sociais">
+                <a href="mailto:editoralenabi@gmail.com" target="_blank"><img src="img-interface/carbon_email.svg"
+                        alt=""></a>
+                <a href="https://www.instagram.com/editoralenabi/?igshid=YTQwZjQ0NmI0OA%3D%3D" target="_blank"><img
+                        src="img-interface/uil_instagram.svg" alt=""></a>
+                <a href="https://x.com/LeNabiEditora?t=-ry8Op0ZSihvYuzXTeuZ8w&s=09" target="_blank"><img
+                        src="img-interface/simple-icons_x.svg" alt=""></a>
+            </div>
+            <div class="logo-footer">
+                <img src="img-interface/lenabi 1.png" alt="">
+                <h2>LeNabi</h2>
+            </div>
+        </div>
+    </footer>
+    <script>
+        var mediaStream;
+
+        // Função para abrir a câmera
+        function abrirCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then(function (stream) {
+                    mediaStream = stream;
+                    const areaVideo = document.getElementById('camera');
+                    areaVideo.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.error('Erro ao acessar a câmera:', error);
+                });
+        }
+
+
+        function fechar() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+            }
+
+            const areaVideo = document.getElementById('camera');
+            areaVideo.srcObject = null;
+            mediaStream = null;
+
+            // Oculta o botão de download ao fechar a câmera
+            downloadLink.style.display = 'none';
+        }
+
+
+
+
+        function adicionarFoto() {
+            const fotoDiv = document.getElementById('foto');
+            const imagemPerfil = document.getElementById('perfil');
+            const imageDataURL = fotoDiv.style.backgroundImage.replace('url("', '').replace('")', '');
+
+            // Salva a foto no localStorage
+            localStorage.setItem('perfilFoto', imageDataURL);
+
+            // Substitui a imagem de perfil pela nova imagem
+            imagemPerfil.src = imageDataURL;
+        }
+
+        function tirarFoto() {
+            const areaVideo = document.getElementById('camera')
+            const canvas = document.createElement('canvas')
+            canvas.width = areaVideo.videoWidth
+            canvas.height = areaVideo.videoHeight
+            const context = canvas.getContext('2d')
+            context.drawImage(areaVideo, 0, 0, canvas.width, canvas.height)
+            const imageDataURL = canvas.toDataURL()
+            const fotoDiv = document.getElementById('foto')
+            fotoDiv.style.backgroundImage = `url(${imageDataURL})`
+
+            // Remova links antigos antes de adicionar um novo
+            const downloadLinkContainer = document.getElementById('download-link-container');
+            while (downloadLinkContainer.firstChild) {
+                downloadLinkContainer.removeChild(downloadLinkContainer.firstChild);
+            }
+
+            const downloadLink = document.createElement('a')
+            downloadLink.href = imageDataURL
+            downloadLink.download = 'foto.png'
+            const downloadIcon = document.createElement('i');
+            downloadIcon.className = 'fa-solid fa-download';
+            downloadIcon.style.color = '#E3CFBC';
+
+            downloadLink.appendChild(downloadIcon);
+            downloadLinkContainer.appendChild(downloadLink);
+        }
+
+
+
+        function salvarNoPerfil() {
+            // Tenta obter a foto salva do localStorage
+            const fotoSalva = localStorage.getItem('perfilFoto');
+
+            if (fotoSalva) {
+                // Se houver uma foto salva, exibe no perfil
+                const imagemPerfil = document.getElementById('perfil');
+                imagemPerfil.src = fotoSalva;
+
+                // Mostra o alerta indicando que a imagem foi salva
+                alert('Perfil salvo!');
+            } else {
+                // Se não houver foto salva, avisa o usuário
+                alert('Nenhuma foto salva. Tire uma foto antes de salvar.');
+            }
+
+            // Chama a função tirarFoto() para atualizar a imagem do #foto
+            tirarFoto();
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Carrega a foto salva, se houver, ou exibe a imagem padrão
+            carregarFotoSalva();
+        });
+
+
+
+        function descartar() {
+            const fotoDiv = document.getElementById('foto');
+            const imagemPerfil = document.getElementById('perfil');
+
+            // Remove a foto do localStorage
+            localStorage.removeItem('perfilFoto');
+
+            // Exibe a imagem padrão no #perfil
+            imagemPerfil.src = 'img-interface/Group 20.svg';
+
+            // Remove a imagem do #foto
+            fotoDiv.style.backgroundImage = 'url("img-interface/Group 20.svg")';
+
+            // Log para verificar se a função está sendo chamada corretamente
+            console.log('Descartou as alterações');
+        }
+
+
+
+
+
+
+
+        // Salva a foto no localStorage antes de fechar a página
+        window.addEventListener('beforeunload', function () {
+            const fotoDiv = document.getElementById('foto');
+            const imageDataURL = fotoDiv.style.backgroundImage.replace('url("', '').replace('")', '');
+            localStorage.setItem('perfilFoto', imageDataURL);
+        });
+
+        // Chame carregarFotoSalva() ao carregar a página para verificar e exibir a foto salva, se houver.
+        carregarFotoSalva();
+
+        // Função para verificar se há uma foto salva no localStorage e carregá-la
+        function carregarFotoSalva() {
+            const fotoSalva = localStorage.getItem('perfilFoto');
+            const imagemPerfil = document.getElementById('perfil');
+            const fotoDiv = document.getElementById('foto');
+
+            if (fotoSalva) {
+                // Se houver uma foto salva, exibe no #foto
+                fotoDiv.style.backgroundImage = `url("${fotoSalva}")`;
+                imagemPerfil.style.display = 'none'; // Esconde a imagem padrão
+            } else {
+                // Se não houver foto salva, exibe a imagem padrão no #perfil
+                imagemPerfil.style.display = 'block'; // Exibe a imagem padrão
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Chama a função para abrir a câmera ao carregar a página
+            abrirCamera();
+
+            // Carrega a foto salva, se houver, ou exibe a imagem padrão
+            carregarFotoSalva();
+        });
+
+
+        // Salva a foto no localStorage antes de fechar a página
+        window.addEventListener('beforeunload', function () {
+            const fotoDiv = document.getElementById('foto');
+            const imageDataURL = fotoDiv.style.backgroundImage.replace('url("', '').replace('")', '');
+            localStorage.setItem('perfilFoto', imageDataURL);
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            renderizarCabecalho();
+        });
+    </script>
+    <script src="main.js"></script>
+    <script src="user.js"></script>
+</body>
+
+</html>

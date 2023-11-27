@@ -83,7 +83,7 @@ body {
   color: #E3CFBC;
 }
 
-.popup-conteudo img {
+.popup-conteudo img, #foto{
   width: 105px;
 }
 
@@ -2164,3 +2164,31 @@ input::-webkit-inner-spin-button {
 }
 
 /* FIM SUSTENTABILIDADE */
+
+/*foto perfil*/
+
+.tituloPerfil{
+  display: flex;
+  font-family: 'Young-serif';
+  margin: 20px 0 44px;
+  font-size: 23px;
+  color: #3C2520;
+  align-items: center;
+}
+
+.tituloPerfil h2{
+  padding: 0 25px;
+}
+
+.titu{
+  background-color: #3C2520;
+  height: 2px;
+  width: 381px;
+}
+
+.line{
+  background-color: #3C2520;
+  height: 2px;
+  width: 1269px;
+  margin-bottom: 4%;
+}
